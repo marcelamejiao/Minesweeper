@@ -31,6 +31,7 @@ public class Game {
 		for(int row = 0; row < 10; row++) {
 			for(int col = 0; col  < 10; col++) {
 				int cell = this.matrix[row][col];
+				// When number is > 8 is a Mine.
 				if(cell > 8) {
 					this.incrementLeft(row, col);
 					this.incrementRight(row, col);
