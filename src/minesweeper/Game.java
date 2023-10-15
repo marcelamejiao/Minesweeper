@@ -1,6 +1,7 @@
 package minesweeper;
 
 import java.util.Arrays;
+import java.util.Scanner;
 
 public class Game {
 	// methods I could need:
@@ -112,14 +113,42 @@ public class Game {
 	public void startGame() {
 		// prepare the fields, matrix: 10 x 10 that contains 10 mines.
 		this.fillMatrix();
+		// display the matrix to the player
+		this.displayMatrix();
 		// ask the player to provide a coordinate to play.
+		this.selectBox();
 		// check if there is a mine at that coordinate.
 		// if the player is allowed to continue playing, show the matrix again,
 		// if the player loses show a message, if wins show another message.
 		// ask the player if wants to play again or exit the game.
 	}
 	
+	private void displayMatrix() {		
+		for(int row = 0; row < 10; row++) {
+			for(int col = 0; col < 10; col++) {
+				System.out.print(this.matrix[row][col]);
+			}
+			// print each row in a different line 
+			System.out.println("");
+		}
+		
+	}
+	
+	
 	public void selectBox(){
+		Scanner s = new Scanner(System.in);
+		System.out.println("Please enter the coordinates e.g: 2,4 means row 2 and column 4.");
+		String inputFromUser = s.next();
+		System.out.println(inputFromUser);
+		
+		// convert string inputFromUser to two integers 
+		String[] arrInputFromUser = inputFromUser.split(",");
+		
+		int row = Integer.parseInt(arrInputFromUser[0]);
+		int col = Integer.parseInt(arrInputFromUser[1]);
+		
+		System.out.println(row);
+		System.out.println(col);
 		
 	}
 	
