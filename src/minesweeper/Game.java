@@ -1,13 +1,25 @@
 package minesweeper;
 
-import java.util.Arrays;
 import java.util.Scanner;
 
 public class Game {
 	// methods I could need:
 	// startGame, selectBox, newGame, 
 	
+	private char[][] playersMatrix = new char[10][10];
 	private int[][] configMatrix = new int[10][10]; 
+	
+	private void fillPlayersMatrix() {
+		for(int row = 0; row < 10; row++) {
+			for(int col = 0; col < 10; col++) {
+				// convert from ASCII code to character
+				char hiddenCell = (char) 9635;
+				
+				// Add the hidden cell character to the matrix
+				this.playersMatrix[row][col] = hiddenCell;
+			}
+		}
+	}
 	
 	private void fillConfigMatrix() {
 		this.allocateMines();
@@ -107,12 +119,15 @@ public class Game {
 		this.configMatrix[row + 1][col + 1] += 1;
 	}
 
+	
 	// initialise the game
 	public void startGame() {
 		// prepare the fields, matrix: 10 x 10 that contains 10 mines.
 		this.fillConfigMatrix();
+		this.fillPlayersMatrix();
 		// display the matrix to the player
 		this.displayMatrix();
+		
 		// ask the player to provide a coordinate to play.
 		this.selectBox();
 		// check if there is a mine at that coordinate.
@@ -125,12 +140,14 @@ public class Game {
 		System.out.println("");
 		for(int row = 0; row < 10; row++) {
 			for(int col = 0; col < 10; col++) {
-				int cell = this.configMatrix[row][col];
-				if(cell > 8) {
-					System.out.print(" x ");
-				} else {
-					System.out.print(" " + cell + " ");
-				}
+				char cell = this.playersMatrix[row][col];
+				System.out.print(" " + cell + " ");
+				
+//				if(cell > 8) {
+//					System.out.print(" x ");
+//				} else {
+//					System.out.print(" " + cell + " ");
+//				}
 			}
 			// print each row in a different line 
 			System.out.println("");
