@@ -127,7 +127,6 @@ public class Game {
 		this.fillPlayersMatrix();
 		// display the matrix to the player
 		this.displayMatrix();
-		
 		// ask the player to provide a coordinate to play.
 		this.selectBox();
 		// check if there is a mine at that coordinate.
@@ -142,12 +141,6 @@ public class Game {
 			for(int col = 0; col < 10; col++) {
 				char cell = this.playersMatrix[row][col];
 				System.out.print(" " + cell + " ");
-				
-//				if(cell > 8) {
-//					System.out.print(" x ");
-//				} else {
-//					System.out.print(" " + cell + " ");
-//				}
 			}
 			// print each row in a different line 
 			System.out.println("");
@@ -161,16 +154,28 @@ public class Game {
 		Scanner s = new Scanner(System.in);
 		System.out.println("Please enter the coordinates e.g: 2,4 means row 2 and column 4.");
 		String inputFromUser = s.next();
-		System.out.println(inputFromUser);
 		
 		// convert string inputFromUser to two integers 
 		String[] arrInputFromUser = inputFromUser.split(",");
-		
 		int row = Integer.parseInt(arrInputFromUser[0]);
 		int col = Integer.parseInt(arrInputFromUser[1]);
 		
-		System.out.println(row);
-		System.out.println(col);
+		// check if there is a mine with these coordinates
+		int cell = this.configMatrix[row][col];
+		
+		// if the number is > 8 means it is a mine 
+		if(cell > 8) {
+			// put a mine symbol in the player matrix
+			this.playersMatrix[row][col] = (char) 9677;
+		} else {
+			// copy the cell from the configMatrix to the playersMatrix, to get the number in the playersMatrix
+			// Character.forDigit needs as the first parameter an integer and the sencond a radix(which means the number system I am using e.g. decimal)
+			// this function changes a integer to a character
+			this.playersMatrix[row][col] = Character.forDigit(this.configMatrix[row][col], 10);
+		}
+		
+		// after the play show the matrix again
+		this.displayMatrix();
 		
 	}
 	
