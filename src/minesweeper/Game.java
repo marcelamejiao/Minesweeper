@@ -9,7 +9,7 @@ public class Game {
 	
 	private int[][] configMatrix = new int[10][10]; 
 	
-	private void fillMatrix() {
+	private void fillConfigMatrix() {
 		this.allocateMines();
 		this.placeNumbersAroundMines();
 	}
@@ -110,7 +110,7 @@ public class Game {
 	// initialise the game
 	public void startGame() {
 		// prepare the fields, matrix: 10 x 10 that contains 10 mines.
-		this.fillMatrix();
+		this.fillConfigMatrix();
 		// display the matrix to the player
 		this.displayMatrix();
 		// ask the player to provide a coordinate to play.
