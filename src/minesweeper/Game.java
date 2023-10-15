@@ -12,8 +12,6 @@ public class Game {
 	private void fillMatrix() {
 		this.allocateMines();
 		this.placeNumbersAroundMines();
-		
-		System.out.println(Arrays.deepToString(this.matrix));
 	}
 	
 	private void allocateMines() {
@@ -123,14 +121,21 @@ public class Game {
 		// ask the player if wants to play again or exit the game.
 	}
 	
-	private void displayMatrix() {		
+	private void displayMatrix() {	
+		System.out.println("");
 		for(int row = 0; row < 10; row++) {
 			for(int col = 0; col < 10; col++) {
-				System.out.print(this.matrix[row][col]);
+				int cell = this.matrix[row][col];
+				if(cell > 8) {
+					System.out.print(" x ");
+				} else {
+					System.out.print(" " + cell + " ");
+				}
 			}
 			// print each row in a different line 
 			System.out.println("");
 		}
+		System.out.println("");
 		
 	}
 	
