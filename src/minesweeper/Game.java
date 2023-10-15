@@ -127,10 +127,16 @@ public class Game {
 		this.fillPlayersMatrix();
 		// display the matrix to the player
 		this.displayMatrix();
-		// ask the player to provide a coordinate to play.
-		this.selectBox();
-		// check if there is a mine at that coordinate.
-		// if the player is allowed to continue playing, show the matrix again,
+
+		boolean continuePlaying = true;
+		// the player can continue playing if has not win or lost.
+		while(continuePlaying) {
+			// ask the player to provide a coordinate to play.
+			this.selectBox();
+			
+			// check if the player has won or lost, to know if we break the while loop.
+		}
+		
 		// if the player loses show a message, if wins show another message.
 		// ask the player if wants to play again or exit the game.
 	}
@@ -157,8 +163,8 @@ public class Game {
 		
 		// convert string inputFromUser to two integers 
 		String[] arrInputFromUser = inputFromUser.split(",");
-		int row = Integer.parseInt(arrInputFromUser[0]);
-		int col = Integer.parseInt(arrInputFromUser[1]);
+		int row = Integer.parseInt(arrInputFromUser[0]) - 1;
+		int col = Integer.parseInt(arrInputFromUser[1]) - 1;
 		
 		// check if there is a mine with these coordinates
 		int cell = this.configMatrix[row][col];
