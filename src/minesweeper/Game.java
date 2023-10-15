@@ -7,7 +7,7 @@ public class Game {
 	// methods I could need:
 	// startGame, selectBox, newGame, 
 	
-	private int[][] matrix = new int[10][10]; 
+	private int[][] configMatrix = new int[10][10]; 
 	
 	private void fillMatrix() {
 		this.allocateMines();
@@ -19,7 +19,7 @@ public class Game {
 		// TODO: fill the first row of the matrix. To distribute all the mines inside the matrix
 		// Mine as an initial value is 9, as any number greater than 8 is not a valid number for the game.
 		for(int i = 0; i < 10; i++ ) {
-			this.matrix[0][i] = 9;
+			this.configMatrix[0][i] = 9;
 		}
 	}
 		
@@ -29,7 +29,7 @@ public class Game {
 		
 		for(int row = 0; row < 10; row++) {
 			for(int col = 0; col  < 10; col++) {
-				int cell = this.matrix[row][col];
+				int cell = this.configMatrix[row][col];
 				// When number is > 8 is a Mine.
 				if(cell > 8) {
 					this.incrementLeft(row, col);
@@ -49,14 +49,14 @@ public class Game {
 		if(col == 0) {
 			return;
 		} 				
-		this.matrix[row][col - 1] += 1;
+		this.configMatrix[row][col - 1] += 1;
 	}
 	
 	private void incrementRight(int row, int col) {
 		if(col == 9) {
 			return;
 		}
-		this.matrix[row][col + 1] += 1;
+		this.configMatrix[row][col + 1] += 1;
 	}
 
 	private void incrementTop(int row, int col) {
@@ -64,7 +64,7 @@ public class Game {
 			return;
 		}
 		
-		this.matrix[row - 1][col] += 1;	
+		this.configMatrix[row - 1][col] += 1;	
 	}
 
 	private void incrementBottom(int row, int col) {
@@ -72,7 +72,7 @@ public class Game {
 			return;
 		}
 		
-		this.matrix[row + 1][col] += 1;	
+		this.configMatrix[row + 1][col] += 1;	
 	}
 
 	private void incrementTopLeft(int row, int col) {
@@ -80,7 +80,7 @@ public class Game {
 			return;
 		}
 		
-		this.matrix[row -1][col - 1] += 1;	
+		this.configMatrix[row -1][col - 1] += 1;	
 	}
 
 	private void incrementBottomLeft(int row, int col) {
@@ -88,7 +88,7 @@ public class Game {
 			return;
 		}
 		
-		this.matrix[row + 1][col -1] += 1;	
+		this.configMatrix[row + 1][col -1] += 1;	
 	}
 
 	private void incrementTopRight(int row, int col) {
@@ -96,7 +96,7 @@ public class Game {
 			return;
 		}
 		
-		this.matrix[row - 1][col + 1] += 1;	
+		this.configMatrix[row - 1][col + 1] += 1;	
 	}
 
 	private void incrementBottomRight(int row, int col) {
@@ -104,7 +104,7 @@ public class Game {
 			return;
 		}
 		
-		this.matrix[row + 1][col + 1] += 1;
+		this.configMatrix[row + 1][col + 1] += 1;
 	}
 
 	// initialise the game
@@ -125,7 +125,7 @@ public class Game {
 		System.out.println("");
 		for(int row = 0; row < 10; row++) {
 			for(int col = 0; col < 10; col++) {
-				int cell = this.matrix[row][col];
+				int cell = this.configMatrix[row][col];
 				if(cell > 8) {
 					System.out.print(" x ");
 				} else {
