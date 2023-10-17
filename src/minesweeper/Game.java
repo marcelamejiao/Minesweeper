@@ -28,11 +28,24 @@ public class Game {
 	
 	private void allocateMines() {
 		// place the mines inside the matrix 
-		// TODO: fill the first row of the matrix. To distribute all the mines inside the matrix
 		// Mine as an initial value is 9, as any number greater than 8 is not a valid number for the game.
-		for(int i = 0; i < 10; i++ ) {
-			this.configMatrix[0][i] = 9;
+		
+		int i = 0;
+		while(i < 10) {
+			// generate random numbers for row and col as positions inside the matrix
+			int row = ((int) (Math.random() * 10));
+			int col = ((int) (Math.random() * 10));
+			
+			// check if cell is equals to 9 and if it is 9 repeat the loop
+			if(this.configMatrix[row][col] == 9) {
+				continue;
+			}
+			// assign the number 9 to each cell that indicates a mine
+			this.configMatrix[row][col] = 9;
+			i++;
 		}
+		
+		
 	}
 		
 	private void placeNumbersAroundMines() {
@@ -127,6 +140,9 @@ public class Game {
 		this.fillPlayersMatrix();
 		// display the matrix to the player
 		this.displayMatrix();
+		
+		// this method is cretaed to test
+//		this.displayMatrixTest();
 
 		boolean continuePlaying = true;
 		// the player can continue playing if has not win or lost.
@@ -155,6 +171,20 @@ public class Game {
 		
 	}
 	
+	
+	private void displayMatrixTest() {	
+		System.out.println("");
+		for(int row = 0; row < 10; row++) {
+			for(int col = 0; col < 10; col++) {
+				int cell = this.configMatrix[row][col];
+				System.out.print(" " + cell + " ");
+			}
+			// print each row in a different line 
+			System.out.println("");
+		}
+		System.out.println("");
+		
+	}
 	
 	public void selectBox(){
 		Scanner s = new Scanner(System.in);
