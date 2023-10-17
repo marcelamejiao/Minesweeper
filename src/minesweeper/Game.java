@@ -151,11 +151,33 @@ public class Game {
 			this.selectBox();
 			
 			// check if the player has won or lost, to know if we break the while loop.
+			if(this.checkIfLose() == true) {
+				continuePlaying = false;
+				System.out.println("You have lost! :( ");
+			}
+//			
 		}
 		
 		// if the player loses show a message, if wins show another message.
 		// ask the player if wants to play again or exit the game.
 	}
+	
+	private boolean checkIfLose() {
+		
+		// check the matrix cells to see if there is any mine, if true the game is over 
+		for(int row = 0; row < 10; row++) {
+			for(int col = 0; col < 10; col++) {
+				if(this.playersMatrix[row][col] == (char) 9677) {
+					return true;
+				}
+			}
+		}
+		
+		return false;
+		
+		
+	}
+	
 	
 	private void displayMatrix() {	
 		System.out.println("");
