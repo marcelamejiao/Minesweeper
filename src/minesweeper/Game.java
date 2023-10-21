@@ -6,8 +6,18 @@ public class Game {
 	// methods I could need:
 	// startGame, selectBox, newGame, 
 	
+	//colours
+	public static final String PURPLE = "\u001B[35m";
+	public static final String GREY_BACKGROUND = "\u001B[47m";
+	public static final String BLUE = "\u001B[34m";
+	public static final String BLACK_BACKGROUND = "\u001B[40m";
+	public static final String WHITE ="\u001B[37m";
+	
 	private char[][] playersMatrix = new char[10][10];
 	private int[][] configMatrix = new int[10][10]; 
+	int[][] vectorTransformations = {
+        {-1,-1},{0,-1},{1,-1},{-1,0},{1,0},{-1,1},{0,1},{1,1}
+ 	};
 	
 	private void fillPlayersMatrix() {
 		for(int row = 0; row < 10; row++) {
@@ -32,7 +42,7 @@ public class Game {
 		
 		int i = 0;
 		while(i < 10) {
-			// generate random numbers for row and col as positions inside the matrix
+			// generate random numbers for row and col as POSITIONS inside the matrix
 			int row = ((int) (Math.random() * 10));
 			int col = ((int) (Math.random() * 10));
 			
@@ -151,11 +161,17 @@ public class Game {
 			this.selectBox();
 			
 			// check if the player has won or lost, to know if we break the while loop.
+			// If the player has lost, break the loop
 			if(this.checkIfLose() == true) {
 				continuePlaying = false;
-				System.out.println("You have lost! :( ");
+				System.out.println(PURPLE + "You have lost! :( ");
+			} // If the player has won, break the loop 
+			else if (this.checkIfwin() == true){
+				continuePlaying = false;
+				System.out.println(PURPLE + "You have won! :) ");
 			}
-//			
+			
+			// If the player has not won or lost, they need to keep playing so continue the loop
 		}
 		
 		// if the player loses show a message, if wins show another message.
@@ -164,27 +180,59 @@ public class Game {
 	
 	private boolean checkIfLose() {
 		
+		
 		// check the matrix cells to see if there is any mine, if true the game is over 
 		for(int row = 0; row < 10; row++) {
 			for(int col = 0; col < 10; col++) {
 				if(this.playersMatrix[row][col] == (char) 9677) {
 					return true;
+				} 
+			}
+		}
+		
+		return false;	
+	}
+	
+	private boolean checkIfwin() {
+		
+		int count = 0;
+		for(int row = 0; row < 10; row++) {
+			for(int col = 0; col < 10; col++) {
+				if(this.playersMatrix[row][col] == (char) 9635) {
+					count++;
 				}
 			}
 		}
 		
+		if(count == 10) {
+			return true;
+		}
 		return false;
-		
-		
 	}
 	
 	
 	private void displayMatrix() {	
 		System.out.println("");
+		
+		// Draw row that shows the column numbers
+		System.out.print(BLACK_BACKGROUND + WHITE + "    ");
+		for (int i = 1; i < 11; i++) {
+			System.out.print((" " + i + " "));
+		}
+		System.out.println("");
+		
 		for(int row = 0; row < 10; row++) {
+			
+			// Print the column that shows the row numbers
+			if (row < 9) {
+				System.out.print(BLACK_BACKGROUND + WHITE + "  " + (row + 1) + " ");
+			} else {
+				System.out.print(BLACK_BACKGROUND + WHITE + " " + (row + 1) + " ");
+			}
+
 			for(int col = 0; col < 10; col++) {
 				char cell = this.playersMatrix[row][col];
-				System.out.print(" " + cell + " ");
+				System.out.print( GREY_BACKGROUND + BLUE + (" " + cell + " "));
 			}
 			// print each row in a different line 
 			System.out.println("");
@@ -193,7 +241,7 @@ public class Game {
 		
 	}
 	
-	
+	// ONLY FOR TESTING
 	private void displayMatrixTest() {	
 		System.out.println("");
 		for(int row = 0; row < 10; row++) {
@@ -208,9 +256,24 @@ public class Game {
 		
 	}
 	
-	public void selectBox(){
+	private void selectBox(){
+		// Ask for coordinates
+		int[] coordinates = this.askForCoordinates();
+		
+		int row = coordinates[0];
+		int col = coordinates[1];
+		
+		// play the coordinates
+		this.playCoordinates(row, col);
+		
+		// after the play show the matrix again
+		this.displayMatrix();
+	}
+	
+	private int[] askForCoordinates()
+	{
 		Scanner s = new Scanner(System.in);
-		System.out.println("Please enter the coordinates e.g: 2,4 means row 2 and column 4.");
+		System.out.println(BLUE + "Please enter the coordinates e.g: 2,4 means row 2 and column 4.");
 		String inputFromUser = s.next();
 		
 		// convert string inputFromUser to two integers 
@@ -218,6 +281,12 @@ public class Game {
 		int row = Integer.parseInt(arrInputFromUser[0]) - 1;
 		int col = Integer.parseInt(arrInputFromUser[1]) - 1;
 		
+		int[] coordinates = {row, col};
+		
+		return coordinates;
+	}
+	
+	private void playCoordinates(int row, int col) {
 		// check if there is a mine with these coordinates
 		int cell = this.configMatrix[row][col];
 		
@@ -232,9 +301,25 @@ public class Game {
 			this.playersMatrix[row][col] = Character.forDigit(this.configMatrix[row][col], 10);
 		}
 		
-		// after the play show the matrix again
-		this.displayMatrix();
-		
+		// if the cell is 0 check its surroundings until there are no more 0s.
+		if(cell == 0) {
+			for (int i = 0; i < vectorTransformations.length; ++i) {
+			   try {
+				   int deltaRow = vectorTransformations[i][0];
+				   int deltaCol = vectorTransformations[i][1];
+				   
+				   int newRow = row + deltaRow;
+				   int newCol = col + deltaCol;
+				   
+				   // If the player matrix in the new position still has a square, then we play that coordinate
+				   if (this.playersMatrix[newRow][newCol] == (char) 9635) {
+					   this.playCoordinates(newRow, newCol);
+				   }
+			   } catch (Exception e) {
+				   
+			   }
+			}
+		}
 	}
 	
 	public void newGame() {

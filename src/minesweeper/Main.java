@@ -10,14 +10,6 @@ public class Main {
 		game.startGame();
 		
 		
-		
-		
-		
-		
-		
-		
-		
-		
 	}
 
 }
