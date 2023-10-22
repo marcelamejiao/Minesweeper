@@ -10,6 +10,7 @@ public class Game {
 	public static final String PURPLE = "\u001B[35m";
 	public static final String GREY_BACKGROUND = "\u001B[47m";
 	public static final String BLUE = "\u001B[34m";
+	public static final String RED = "\u001B[31m";
 	public static final String BLACK_BACKGROUND = "\u001B[40m";
 	public static final String WHITE ="\u001B[37m";
 	
@@ -174,8 +175,12 @@ public class Game {
 			// If the player has not won or lost, they need to keep playing so continue the loop
 		}
 		
-		// if the player loses show a message, if wins show another message.
 		// ask the player if wants to play again or exit the game.
+		if(this.askToPlayAgain()== true) {
+			this.startGame();
+		} else {
+			System.out.println("Goodbye :)");
+		}
 	}
 	
 	private boolean checkIfLose() {
@@ -276,12 +281,20 @@ public class Game {
 		System.out.println(BLUE + "Please enter the coordinates e.g: 2,4 means row 2 and column 4.");
 		String inputFromUser = s.next();
 		
-		// convert string inputFromUser to two integers 
-		String[] arrInputFromUser = inputFromUser.split(",");
-		int row = Integer.parseInt(arrInputFromUser[0]) - 1;
-		int col = Integer.parseInt(arrInputFromUser[1]) - 1;
+		int[] coordinates = new int[2];
 		
-		int[] coordinates = {row, col};
+		// convert string inputFromUser to two integers 
+		try {
+			String[] arrInputFromUser = inputFromUser.split(",");
+			int row = Integer.parseInt(arrInputFromUser[0]) - 1;
+			int col = Integer.parseInt(arrInputFromUser[1]) - 1;
+			
+			coordinates[0] = row;
+			coordinates[1] = col;
+		} catch (Exception e) {
+			System.out.println(RED + "Invalid input. Please try again.");
+			coordinates = this.askForCoordinates();
+		}
 		
 		return coordinates;
 	}
@@ -322,17 +335,15 @@ public class Game {
 		}
 	}
 	
-	public void newGame() {
+	
+	private boolean askToPlayAgain() {
+		Scanner s = new Scanner(System.in);
+		System.out.println(BLUE + "Would you like to play again? yes/no");
+		String inputFromUser = s.next();
 		
+		if(inputFromUser.equals("yes")) {
+			return true;
+		}
+		return false;	
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }
