@@ -3,8 +3,10 @@ package minesweeper;
 import java.util.Scanner;
 
 public class Game {
-	// methods I could need:
-	// startGame, selectBox, newGame, 
+	// special characters for visual components
+	// create constants 
+	public static final char HIDDEN_CELL = '-';
+	public static final char BOMB = (char) 9677; 
 	
 	//colours
 	public static final String PURPLE = "\u001B[35m";
@@ -24,7 +26,7 @@ public class Game {
 		for(int row = 0; row < 10; row++) {
 			for(int col = 0; col < 10; col++) {
 				// convert from ASCII code to character
-				char hiddenCell = (char) 9635;
+				char hiddenCell = HIDDEN_CELL;
 				
 				// Add the hidden cell character to the matrix
 				this.playersMatrix[row][col] = hiddenCell;
@@ -68,81 +70,24 @@ public class Game {
 				int cell = this.configMatrix[row][col];
 				// When number is > 8 is a Mine.
 				if(cell > 8) {
-					this.incrementLeft(row, col);
-					this.incrementRight(row, col);
-					this.incrementTop(row, col);
-					this.incrementBottom(row, col);
-					this.incrementTopLeft(row, col);
-					this.incrementBottomLeft(row, col);
-					this.incrementTopRight(row, col);
-					this.incrementBottomRight(row, col);
+					for (int i = 0; i < vectorTransformations.length; ++i) {
+					   try {
+						   int deltaRow = vectorTransformations[i][0];
+						   int deltaCol = vectorTransformations[i][1];
+						   
+						   int newRow = row + deltaRow;
+						   int newCol = col + deltaCol;
+						   
+						   this.configMatrix[newRow][newCol] += 1;
+					   } catch (Exception e) {
+						   
+					   }
+					}
 				}	
 			}
 		}
 	}
 	
-	private void incrementLeft(int row, int col) {
-		if(col == 0) {
-			return;
-		} 				
-		this.configMatrix[row][col - 1] += 1;
-	}
-	
-	private void incrementRight(int row, int col) {
-		if(col == 9) {
-			return;
-		}
-		this.configMatrix[row][col + 1] += 1;
-	}
-
-	private void incrementTop(int row, int col) {
-		if(row == 0) {
-			return;
-		}
-		
-		this.configMatrix[row - 1][col] += 1;	
-	}
-
-	private void incrementBottom(int row, int col) {
-		if(row == 9) {
-			return;
-		}
-		
-		this.configMatrix[row + 1][col] += 1;	
-	}
-
-	private void incrementTopLeft(int row, int col) {
-		if(row == 0 || col == 0) {
-			return;
-		}
-		
-		this.configMatrix[row -1][col - 1] += 1;	
-	}
-
-	private void incrementBottomLeft(int row, int col) {
-		if(row == 9 || col == 0) {
-			return;
-		}
-		
-		this.configMatrix[row + 1][col -1] += 1;	
-	}
-
-	private void incrementTopRight(int row, int col) {
-		if(row == 0 || col == 9) {
-			return;
-		}
-		
-		this.configMatrix[row - 1][col + 1] += 1;	
-	}
-
-	private void incrementBottomRight(int row, int col) {
-		if(row == 9 || col == 9) {
-			return;
-		}
-		
-		this.configMatrix[row + 1][col + 1] += 1;
-	}
-
 	
 	// initialise the game
 	public void startGame() {
@@ -189,7 +134,7 @@ public class Game {
 		// check the matrix cells to see if there is any mine, if true the game is over 
 		for(int row = 0; row < 10; row++) {
 			for(int col = 0; col < 10; col++) {
-				if(this.playersMatrix[row][col] == (char) 9677) {
+				if(this.playersMatrix[row][col] == BOMB) {
 					return true;
 				} 
 			}
@@ -203,7 +148,7 @@ public class Game {
 		int count = 0;
 		for(int row = 0; row < 10; row++) {
 			for(int col = 0; col < 10; col++) {
-				if(this.playersMatrix[row][col] == (char) 9635) {
+				if(this.playersMatrix[row][col] == HIDDEN_CELL) {
 					count++;
 				}
 			}
@@ -237,7 +182,11 @@ public class Game {
 
 			for(int col = 0; col < 10; col++) {
 				char cell = this.playersMatrix[row][col];
-				System.out.print( GREY_BACKGROUND + BLUE + (" " + cell + " "));
+				if(col < 9) {
+					System.out.print( GREY_BACKGROUND + BLUE + (" " + cell + " "));
+				} else {
+					System.out.print( GREY_BACKGROUND + BLUE + (" " + cell + "  "));
+				}
 			}
 			// print each row in a different line 
 			System.out.println("");
@@ -306,7 +255,7 @@ public class Game {
 		// if the number is > 8 means it is a mine 
 		if(cell > 8) {
 			// put a mine symbol in the player matrix
-			this.playersMatrix[row][col] = (char) 9677;
+			this.playersMatrix[row][col] = BOMB;
 		} else {
 			// copy the cell from the configMatrix to the playersMatrix, to get the number in the playersMatrix
 			// Character.forDigit needs as the first parameter an integer and the sencond a radix(which means the number system I am using e.g. decimal)
@@ -325,7 +274,7 @@ public class Game {
 				   int newCol = col + deltaCol;
 				   
 				   // If the player matrix in the new position still has a square, then we play that coordinate
-				   if (this.playersMatrix[newRow][newCol] == (char) 9635) {
+				   if (this.playersMatrix[newRow][newCol] == HIDDEN_CELL) {
 					   this.playCoordinates(newRow, newCol);
 				   }
 			   } catch (Exception e) {
