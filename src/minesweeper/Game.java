@@ -143,6 +143,7 @@ public class Game {
 	
 	private boolean checkIfwin() {
 		
+		// if there are 10 hidden cells means that the only cells left are mines, so the player won!
 		int count = 0;
 		for(int row = 0; row < 10; row++) {
 			for(int col = 0; col < 10; col++) {
@@ -177,7 +178,8 @@ public class Game {
 			} else {
 				System.out.print(BLACK_BACKGROUND + WHITE + " " + (row + 1) + " ");
 			}
-
+			
+			// print the matrix
 			for(int col = 0; col < 10; col++) {
 				char cell = this.playersMatrix[row][col];
 				if(col < 9) {
