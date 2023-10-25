@@ -25,11 +25,9 @@ public class Game {
 	private void fillPlayersMatrix() {
 		for(int row = 0; row < 10; row++) {
 			for(int col = 0; col < 10; col++) {
-				// convert from ASCII code to character
-				char hiddenCell = HIDDEN_CELL;
 				
 				// Add the hidden cell character to the matrix
-				this.playersMatrix[row][col] = hiddenCell;
+				this.playersMatrix[row][col] = HIDDEN_CELL;
 			}
 		}
 	}
