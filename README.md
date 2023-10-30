@@ -44,7 +44,7 @@ In this case a mine was a number greater than eight, eight being the maximun min
 Given a mine, all the cells around the mine needed to be increment by 1, which resulted in those cells indicating the total number of mines that were around them. 
 Initially I increment each cell around the mine using methods called top-right, botton-left, etc. There were some edge cases where a cell could not be increment if the adjacent mine was located in a corner or an edge of the matrix. 
 
-To refactor this algorithm the vectors were applied, so instead of having 8 different functions to check each cell around the mine, only one function was needed. 
+To refactor this algorithm the vectors were applied, so instead of having 8 different methods to check each cell around the mine, only one method was needed. 
 
 ## **Usage**
 
