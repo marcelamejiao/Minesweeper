@@ -70,7 +70,7 @@ Using Eclipse or a bash terminal/console, run/execute the Main class.
 
 * **Lost the game :(**
 
-![lost](./assets/img/winner.png)
+![lost](./assets/img/lost.png)
 
 
 * **Win the game :)**
