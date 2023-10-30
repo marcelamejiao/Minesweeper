@@ -33,8 +33,17 @@ public class Game {
 	}
 	
 	private void fillConfigMatrix() {
+		this.resetConfigMatrix();
 		this.allocateMines();
 		this.placeNumbersAroundMines();
+	}
+	
+	private void resetConfigMatrix() {
+		for(int row = 0; row < 10; row++) {
+			for(int col = 0; col < 10; col++) {
+				this.configMatrix[row][col] = 0;
+			}
+		}
 	}
 	
 	private void allocateMines() {
