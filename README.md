@@ -9,7 +9,6 @@
   - [**Usage**](#usage)
   - [**Technologies Used**](#technologies-used)
   - [**Preview**](#preview)
-  - [**Deployed link**](#deployed-link)
   - [**Future Development**](#future-development)
   - [**Questions**](#questions)
 
@@ -76,10 +75,6 @@ Using Eclipse or a bash terminal/console, run/execute the Main class.
 * **Win the game :)**
 
 ![won](./assets/img/won.png)
-
-## **Deployed link**
-
-💡 Live version: [To be deployed - click here!]()
 
 ## **Future Development**
 
